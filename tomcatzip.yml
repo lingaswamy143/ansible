@@ -14,6 +14,10 @@
       path: /opt/tomcat
       state: directory
       mode: 0755
+  - name: isntall unzip soft
+    apt:
+      name: unzip
+      state: present
   - name: copy and extract the tomcat zip file
     unarchive:
       src: apache-tomcat-8.5.33.zip
