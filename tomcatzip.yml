@@ -18,7 +18,6 @@
     unarchive:
       src: apache-tomcat-8.5.33.zip
       dest: /opt/tomcat
-      remote_src: yes
   - name: change script permisions
     command: chmod 777 /opt/tomcat/apache-tomcat-8.5.33/bin/*.sh
   - name: create symbolic link for statup scrilpt
