@@ -1,0 +1,30 @@
+---
+- hosts: tom
+  become: yes
+  tasks:
+  - name: installing java
+    apt:
+      name: openjdk-8-jdk
+      state: present
+  - name: update the packages
+    apt:
+      update_cache: yes
+  - name: creatind directory for tocmat
+    file:
+      path: /opt/tomcat
+      state: directory
+      mode: 0755
+  - name: copy and extract the tomcat zip file
+    unarchive:
+      src: apache-tomcat-8.5.33.zip
+      dest: /opt/tomcat
+      remote_src: yes
+  - name: change script permisions
+    command: chmod 777 /opt/tomcat/apache-tomcat-8.5.33/bin/*.sh
+  - name: create symbolic link for statup scrilpt
+    command: ln -s /opt/tomcat/apache-tomcat-8.5.33/bin/startup.sh /usr/bin/tomcatup
+  - name: create symbolic link for shutdown scrpt
+    command: ln -s /opt/tomcat/apache-tomcat-8.5.33/bin/shutdown.sh /usr/bin/tomcatdown
+  - name: to run the tomcat as root from anywherer in the shell
+    command: tomcatup
+  
