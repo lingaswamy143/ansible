@@ -44,7 +44,8 @@
   handlers:
     - name: update apt
       apt:
-        update_cache: yes
+        name: "*"
+        state: latest
       
   
     
