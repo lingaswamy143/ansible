@@ -3,23 +3,19 @@
   become: yes
   tasks:
   - name: updating the packages
-    notify:
-    - update apt
+    apt:
+      update_cache: yes
   - name: add oracle ppa repo
     apt_repository:
       repo: add-apt-repository ppa:webupd8team/java
       state: present
   - name: updating the packages agian
-    notify:
-    - update apt
-  - name: isntall java with command
-    command: apt-get install oracle-java8-installer
-  - name: updating again and upgrading
-    notify:
-    - update apt
-  - name: upgrade the packages
     apt:
-      upgrade: dist
+      upgrade: yes
+  - name: isntall java with command
+    apt:
+      name: oracle-java8-installer
+      state: present
   - name: install tomcat8
     apt:
       name: tomcat8
@@ -40,12 +36,7 @@
     service:
       name: tomcat8
       state: restarted
-  - name: writing handlers for updating
-  handlers:
-    - name: update apt
-      apt:
-        name: "*"
-        state: latest
+  
       
   
     
