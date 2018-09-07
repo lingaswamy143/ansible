@@ -1,0 +1,42 @@
+---
+- hosts: tomcat
+  become: yes
+  tasks:
+  - name: update the packages
+    apt:
+    update_cache: yes
+  - name: install and update
+    apt:
+      name: default-jdk
+      state: present
+  - name: create a directory for tomcat
+    file:
+      path: /opt/tomcat
+      state: directory
+      mode: 0755
+  - name: copying apache-zip and unarchive
+    unarchive:
+      src: apache-tomcat-8.5.33.zip
+      dest: /opt/tomcat
+  - name: givind execute permissions
+    command: sudo chmod g+x /opt/tomcat/apache-tomcat-8.5.33/conf
+  - name: give tomcat.sh script executable
+    command: chmod ugo=x /opt/tomcat/apache-tomcat-8.5.33/bin/startup.sh
+  - name: give catalina.sh script executable
+    command: chmod ugo=x /opt/tomcat/apache-tomcat-8.5.33/bin/catalina.sh
+  - name: start tomcat script
+    command: sudo sh /opt/tomcat/apache-tomcat-8.5.33/bin/startup.sh
+  - name: Configure Tomcat Web Management Interface
+    template:
+      src: templates/tomcat-users.xml.j2
+      dest: /opt/tomcat/apache-tomcat-8.5.33/conf/tomcat-users.xml
+  - name: restart tomcat script
+    command: sudo sh /opt/tomcat/apache-tomcat-8.5.33/bin/startup.sh
+  
+  
+  
+  
+    
+    
+    
+

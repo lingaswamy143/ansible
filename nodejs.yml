@@ -1,0 +1,72 @@
+---
+  #nodejs specific settings
+  #taken source from
+  #https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
+- hosts: ubuntu
+  become: yes
+  tasks:
+  - name: update the packages
+    apt:
+      name: git
+      update_cache: yes
+  - name: download nodejs script
+    command: "curl -sL https://deb.nodesource.com/setup_6.x -o /home/ubuntu/nodesource_setup.sh"
+  - name: run the script
+    command: sudo bash /home/ubuntu/nodesource_setup.sh
+  - name: installing nodejs and npm
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+        - nodejs
+        - build-essential
+  - name: creating template with dynamic content
+    template:
+      src: templates/hello.js.j2
+      dest: /home/ubuntu/hello.js
+      mode: "ugo=rwx"
+  - name: install pm2
+    npm:
+      name: pm2
+      global: yes
+  - name: start the hello.js
+    command: pm2 start /home/ubuntu/hello.js
+  - name: startup generates and configures a startup scrpt 
+    command: pm2 startup systemd
+  - name: start on boot
+    command: sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu/
+# configure webserver as reverse proxy
+- hosts: web
+  become: yes
+  tasks:
+  - name: installing nginx package
+    package:
+      name: nginx
+      update_cache: yes
+      state: present
+    notify:
+    - start nginx
+  - name: set nginx as reverse proxy
+    template:
+      src: templates/default.j2
+      dest: /etc/nginx/sites-available/default
+    notify:
+    - start nginx
+  handlers:
+    - name: start nginx
+      service:
+        name: nginx
+        state: restarted
+
+
+
+
+
+  
+
+  
+
+  
+  
+  
+    

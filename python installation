@@ -1,0 +1,4 @@
+https://askubuntu.com/questions/981118/correct-way-to-install-python-2-7-on-ubuntu-17-10/981279
+sudo apt update
+sudo apt upgrade
+sudo apt install python2.7 python-pip

@@ -1,0 +1,50 @@
+---
+- hosts: tomcat
+  become: yes
+  tasks:
+  - name: updating the packages
+    notify:
+    - update apt
+  - name: add oracle ppa repo
+    apt_repository:
+      repo: add-apt-repository ppa:webupd8team/java
+      state: present
+  - name: updating the packages agian
+    notify:
+    - update apt
+  - name: isntall java with command
+    command: apt-get install oracle-java8-installer
+  - name: updating again and upgrading
+    notify:
+    - update apt
+  - name: upgrade the packages
+    apt:
+      upgrade: dist
+  - name: install tomcat8
+    apt:
+      name: tomcat8
+      state: present
+  - name: installing multiple packages
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - tomcat8-docs
+      - tomcat8-examples
+      - tomcat8-admin
+  - name: creating tomcat-user.xml file
+    template:
+      src: templates/tomcat-users.xml.j2
+      dest: /var/lib/tomcat8/conf/tomcat-users.xml
+  - name: restart tomcat
+    service:
+      name: tomcat8
+      state: restarted
+  - name: writing handlers for updating
+  handlers:
+    - name: update apt
+      apt:
+        update_cache: yes
+      
+  
+    
