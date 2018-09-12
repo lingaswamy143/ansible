@@ -1,0 +1,46 @@
+---
+- hosts: all
+  become: yes
+  vars:
+  tasks:
+  - name: updating the packages
+    apt:
+      update_cache: yes
+  - name: installing java
+    apt:
+      name: default-jdk
+      state: present
+  - name: create a tomcat user
+    group:
+      name: tomcat
+      state: present
+  - name: creating user with home direcotyr
+    user:
+      name: tomcat
+      shell: /bin/bash
+      group: tomcat
+      create_home: /opt/tomcat
+  - name: downloaing and unarchive
+    unarchive:
+      src: http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.zip
+      dest: /opt/tomcat
+  - name: giving permissions for tomat user over /opt/tomcat directory
+    file:
+      path: /opt/tomcat
+      owner: tomcat
+      group: tomcat
+      mode: 0755
+  - name: create a systemd service file
+    template:
+      src: templates/tomcat.service.j2
+      dest: /etc/systemd/system/tomcat.service
+  - name: runnig deamon reload command
+    systemd:
+      state: started
+      daemon_reload: yes
+      name: tomcat
+      
+  
+
+    
+
