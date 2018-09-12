@@ -26,8 +26,16 @@
     command: chmod 777 /opt/tomcat/apache-tomcat-8.5.33/bin/startup.sh
   - name: create symbolic link for statup scrilpt
     command: ln -s /opt/tomcat/apache-tomcat-8.5.33/bin/startup.sh /usr/bin/tomcatup
+    when: $(! -s /etc/sample.txt)
   - name: create symbolic link for shutdown scrpt
     command: ln -s /opt/tomcat/apache-tomcat-8.5.33/bin/shutdown.sh /usr/bin/tomcatdown
+    when: $(! -s /etc/sample.txt)
   - name: to run the tomcat as root from anywherer in the shell
     command: tomcatup
+  - name: creating a file
+    file:
+      path: /etc/sample.txt
+      state: touch
+# we can run run_once also
+ 
   
