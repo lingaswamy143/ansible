@@ -19,7 +19,8 @@
       name: tomcat
       shell: /bin/bash
       group: tomcat
-      create_home: /opt/tomcat
+      home: /opt/tomcat
+      move_home: yes
   - name: downloaing and unarchive
     unarchive:
       src: http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.zip
