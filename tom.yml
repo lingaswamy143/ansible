@@ -31,11 +31,7 @@
       dest: /opt/tomcat
       remote_src: yes
   - name: giving permissions for tomat user over /opt/tomcat directory
-    file:
-      path: /opt/tomcat/apache-tomcat-8.5.34
-      owner: tomcat
-      group: tomcat
-      mode: 0755
+    command: sudo chgrp -R tomcat /opt/tomcat/apache-tomcat-8.5.34 && sudo chown -R tomcat /opt/tomcat/apache-tomcat-8.5.34 && sudo chmod -R 755 /opt/tomcat/apache-tomcat-8.5.34
   - name: create a systemd service file
     template:
       src: templates/tomcat.service.j2
@@ -46,7 +42,11 @@
       state: started
       daemon_reload: yes
       name: tomcat
-      
+  - name: Configure Tomcat Web Management Console
+    template:
+      src: templates/tomcat-users.xml.j2
+      dest: /opt/tomcat/apache-tomcat-8.5.34/conf/tomcat-users.xml
+
   
 
     
