@@ -32,6 +32,10 @@
       remote_src: yes
   - name: giving permissions for tomat user over /opt/tomcat directory
     command: chgrp -R tomcat /opt/tomcat/apache-tomcat-8.5.34
+  - name: giving user permissions
+    command: chown -R tomcat /opt/tomcat/apache-tomcat-8.5.34
+  - name: changing mode of the tomcat home directory
+    command: chmod -R 755 /opt/tomcat
   - name: create a systemd service file
     template:
       src: templates/tomcat.service.j2
