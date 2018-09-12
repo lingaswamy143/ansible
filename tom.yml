@@ -25,6 +25,7 @@
     unarchive:
       src: http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.zip
       dest: /opt/tomcat
+      remote_src: yes
   - name: giving permissions for tomat user over /opt/tomcat directory
     file:
       path: /opt/tomcat
