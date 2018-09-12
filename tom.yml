@@ -31,7 +31,7 @@
       dest: /opt/tomcat
       remote_src: yes
   - name: giving permissions for tomat user over /opt/tomcat directory
-    command: sudo chgrp -R tomcat /opt/tomcat/apache-tomcat-8.5.34 && sudo chown -R tomcat /opt/tomcat/apache-tomcat-8.5.34 && sudo chmod -R 755 /opt/tomcat/apache-tomcat-8.5.34
+    command: "sudo chgrp -R tomcat /opt/tomcat/apache-tomcat-8.5.34 && sudo chown -R tomcat /opt/tomcat/apache-tomcat-8.5.34 && sudo chmod -R 755 /opt/tomcat/apache-tomcat-8.5.34"
   - name: create a systemd service file
     template:
       src: templates/tomcat.service.j2
