@@ -27,16 +27,12 @@
       shell: /bin/false
       home: /opt/tomcat
       move_home: yes
-  - name: install unarchive soft
-    apt:
-      name: unzip
-      state: present
   - name: download tomcat zip and extract to home directory
-    unarchive:
-      src: http://mirrors.wuchna.com/apachemirror/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.tar.gz
-      dest: /opt/tomcat
-      remote_src: yes
-      extra_opts: [--strip-componets=1]
+    get_url:
+      url: http://mirrors.wuchna.com/apachemirror/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.tar.gz
+      dest: /tmp/
+  - name: extract tomcat zip
+    command: tar xzvf /tmp/apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
   - name: giving tomcat group read and execute access
     file: 
       path: /opt/tomcat/
