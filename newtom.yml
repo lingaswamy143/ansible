@@ -4,7 +4,7 @@
   tasks:
   - name: updating the packages
     apt:
-      upate_cache: yes
+      update_cache: yes
   - name: installing java
     apt:
       name: default-jdk
