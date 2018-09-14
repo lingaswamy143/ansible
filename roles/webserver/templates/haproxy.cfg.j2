@@ -35,11 +35,11 @@ defaults
 	errorfile 504 /etc/haproxy/errors/504.http
 frontend firstbalance
         bind *:80
-        option forwardfor
+        stats uri /haproxy?stats
         default_backend webservers
 
 backend webservers
         balance roundrobin
-        server ec2-34-221-97-63.us-west-2.compute.amazonaws.com ip-172-31-25-99.us-west-2.compute.internal:8080 check
-        server ec2-54-191-213-152.us-west-2.compute.amazonaws.com ip-172-31-40-171.us-west-2.compute.internal:8080 check
-        option httpchk
+        server webserver1 172.31.25.99:8080 check
+        server webserver2 172.31.40.171:8080 check
+        
