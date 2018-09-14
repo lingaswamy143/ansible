@@ -35,9 +35,10 @@
       remote_src: yes
       extra_opts: [--strip-componets=1]
   - name: giving tomcat group read and execute access
-    file: /opt/tomcat/conf
-    group: tomcat
-    mode: 0777
+    file: 
+      path: /opt/tomcat/conf
+      group: tomcat
+      mode: 0777
 
 
   
