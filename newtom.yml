@@ -27,6 +27,10 @@
       shell: /bin/false
       home: /opt/tomcat
       move_home: yes
+  - name: install unarchive soft
+    apt:
+      name: unzip
+      state: present
   - name: download tomcat zip and extract to home directory
     unarchive:
       src: http://mirrors.wuchna.com/apachemirror/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.tar.gz
