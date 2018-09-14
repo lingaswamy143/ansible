@@ -60,5 +60,9 @@
     template:
       src: templates/context.xml.j2
       dest: "{{ home_directory }}/webapps/host-manager/META-INF/context.xml"
+  - name: deploy jenkins into tomcat
+    get_url:
+      url: http://ftp-nyc.osuosl.org/pub/jenkins/war-stable/2.138.1/jenkins.war
+      dest: "{{ home_directory }}/webapps"
     notify:
     - restarting tomcat
