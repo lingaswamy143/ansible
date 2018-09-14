@@ -13,7 +13,7 @@
       state: present
   - name: creating tomcat home directory
     file:
-      path: {{ home_directory }}
+      path: "{{ home_directory }}"
       state: directory
       mode: 0755
       group: tomcat
@@ -23,7 +23,7 @@
       state: present
       group: tomcat
       shell: /bin/false
-      home: {{ home_directory }}
+      home: "{{ home_directory }}"
       move_home: yes
   - name: download tomcat zip and extract to home directory
     get_url:
@@ -33,7 +33,7 @@
     command: "tar xzvf /tmp/apache-tomcat-8.5.34.tar.gz -C {{ home_directory }} --strip-components=1"
   - name: giving tomcat group read and execute access
     file: 
-      path: {{ home_directory }}
+      path: "{{ home_directory }}"
       group: tomcat
       owner: tomcat
       mode: 0777
