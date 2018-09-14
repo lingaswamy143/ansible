@@ -39,6 +39,7 @@
       group: tomcat
       owner: tomcat
       mode: 0777
+      recurse: yes
   - name: creating init file for service
     template:
       src: templates/tomcat.service.j2
