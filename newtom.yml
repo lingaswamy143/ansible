@@ -19,7 +19,6 @@
       state: directory
       mode: 0755
       group: tomcat
-      owner: tomcat
   - name: creating tomcat user and assign to tomcat group
     user:
       name: tomcat
@@ -36,8 +35,9 @@
       extra_opts: [--strip-componets=1]
   - name: giving tomcat group read and execute access
     file: 
-      path: /opt/tomcat/conf
+      path: /opt/tomcat/
       group: tomcat
+      owner: tomcat
       mode: 0777
 
 
