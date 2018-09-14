@@ -1,5 +1,9 @@
 ---
-- hosts: all
+- hosts: appserver
   become: yes
   roles:
     - tomcat
+- hosts: webserver
+  become: yes
+  roles:
+    - webserver
