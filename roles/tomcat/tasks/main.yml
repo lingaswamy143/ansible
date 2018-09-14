@@ -1,2 +1,64 @@
 ---
 # tasks file for tomcat
+  - name: updating the packages
+    apt:
+      update_cache: yes
+  - name: installing java
+    apt:
+      name: default-jdk
+      state: present
+  - name: creating tomcat group
+    group:
+      name: tomcat
+      state: present
+  - name: creating tomcat home directory
+    file:
+      path: {{ home_directory }}
+      state: directory
+      mode: 0755
+      group: tomcat
+  - name: creating tomcat user and assign to tomcat group
+    user:
+      name: tomcat
+      state: present
+      group: tomcat
+      shell: /bin/false
+      home: {{ home_directory }}
+      move_home: yes
+  - name: download tomcat zip and extract to home directory
+    get_url:
+      url: http://mirrors.wuchna.com/apachemirror/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.tar.gz
+      dest: /tmp/
+  - name: extract tomcat zip
+    command: "tar xzvf /tmp/apache-tomcat-8.5.34.tar.gz -C {{ home_directory }} --strip-components=1"
+  - name: giving tomcat group read and execute access
+    file: 
+      path: {{ home_directory }}
+      group: tomcat
+      owner: tomcat
+      mode: 0777
+      recurse: yes
+  - name: creating init file for service
+    template:
+      src: templates/tomcat.service.j2
+      dest: /etc/systemd/system/tomcat.service
+      owner: tomcat
+      group: tomcat
+      mode: 0777
+    notify:
+    - starting deamon
+    - restarting tomcat
+  - name: adding user who can acces tomcat-web
+    template:
+      src: templates/tomcat-users.xml.j2
+      dest: "{{ home_directory }}/conf/tomcat-users.xml"
+  - name: changing context to access manager and host manager
+    template:
+      src: templates/context.xml.j2
+      dest: "{{ home_directory }}/webapps/manager/META-INF/context.xml"
+  - name: changing context
+    template:
+      src: templates/context.xml.j2
+      dest: "{{ home_directory }}/webapps/host-manager/META-INF/context.xml"
+    notify:
+    - restarting tomcat
