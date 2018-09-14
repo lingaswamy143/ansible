@@ -40,6 +40,6 @@ frontend firstbalance
 
 backend webservers
         balance roundrobin
-        server webserver1 ip-172-31-25-99.us-west-2.compute.internal:80 check
-        server webserver2 ip-172-31-40-171.us-west-2.compute.internal:80 check
+        server ec2-34-221-97-63.us-west-2.compute.amazonaws.com ip-172-31-25-99.us-west-2.compute.internal:8080 check
+        server ec2-54-191-213-152.us-west-2.compute.amazonaws.com ip-172-31-40-171.us-west-2.compute.internal:8080 check
         option httpchk
