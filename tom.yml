@@ -12,7 +12,7 @@
       state: present
   - name: create a tomcat user
     group:
-      name: tomcat
+      name: ansible
       state: present
   - name: creating user with home direcotyr
     user:

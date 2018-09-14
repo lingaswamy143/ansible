@@ -1,0 +1,43 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: updating the packages
+    apt:
+      upate_cache: yes
+  - name: installing java
+    apt:
+      name: default-jdk
+      state: present
+  - name: creating tomcat group
+    group:
+      name: tomcat
+      state: present
+  - name: creating tomcat home directory
+    file:
+      path: /opt/tomcat
+      state: directory
+      mode: 0755
+      group: tomcat
+      owner: tomcat
+  - name: creating tomcat user and assign to tomcat group
+    user:
+      name: tomcat
+      state: present
+      group: tomcat
+      shell: /bin/false
+      home: /opt/tomcat
+      move_home: yes
+  - name: download tomcat zip and extract to home directory
+    unarchive:
+      src: http://mirrors.wuchna.com/apachemirror/tomcat/tomcat-8/v8.5.34/bin/apache-tomcat-8.5.34.tar.gz
+      dest: /opt/tomcat
+      remote_src: yes
+      extra_opts: [--strip-componets=1]
+  - name: giving tomcat group read and execute access
+    file: /opt/tomcat/conf
+    group: tomcat
+    mode: 0777
+
+
+  
