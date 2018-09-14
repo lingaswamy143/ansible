@@ -39,6 +39,17 @@
       group: tomcat
       owner: tomcat
       mode: 0777
+  - name: creating init file for service
+    template:
+      src: templates/tomcat.service.j2
+      dest: /etc/systemd/system/tomcat.service
+  - name: starting deamon service
+    systemd:
+      state: started
+      daemon_reload: yes
+      name: tomcat
+
+   
 
 
   
