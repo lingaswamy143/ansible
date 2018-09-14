@@ -1,2 +1,15 @@
 ---
 # tasks file for webserver
+- name: updating the packages
+  apt:
+    update_cache: yes
+- name: installing ha proxy
+  apt:
+    name: haproxy
+    state: present
+- name: configuring frontend and backend
+  template:
+    src: templates/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  notify:
+  - restart haproxy
