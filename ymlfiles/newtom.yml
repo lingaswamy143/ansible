@@ -74,7 +74,11 @@
     get_url:
       url: http://ftp-nyc.osuosl.org/pub/jenkins/war-stable/2.138.1/jenkins.war
       dest: "{{ home_directory }}/webapps"
-
+  - name: deploying petclinic
+    copy:
+      src: /var/lib/jenkins/workspace/petclinic/target/petclinic.war
+      dest: /opt/tomcat/webapps/
+      
    
 
 
